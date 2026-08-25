@@ -1,0 +1,33 @@
+márka;modellek;évjárat;hajtáslánc;szín;besorolás;kategória 
+Audi;A4;2010;AWD;kék;classic;coupe
+Audi;A6;2009;RWD;szürke;classic;coupe
+Audi;A7;2019;AWD;fehér;classic;coupe
+Audi;Q4;2015;AWD;piros;classic;suv
+Audi;Q5;2017;AWD;fekete;classic;suv
+Audi;Q7;2021;AWD;fehér;classic;suv
+Audi;R8;2020;RWD;fehér;luxury;sport 
+Suzuki;Swift;2009;FWD;szürke;classic;coupe
+Suzuki;Vitara;2013;FWD;fehér;classic;coupe
+Suzuki;S-cross;2018;AWD;kék;classic;suv
+Suzuki;Swace;2021;FWD;fehér;classic;coupe
+Suzuki;Accross;2020;AWD;fekete;classic;suv
+Toyota;Camry;2020;FWD;fehér;classic;coupe
+Toyota;Corolla;2019;FWD;szürke;classic;coupe
+Toyota;Prius;2018;FWD;zöld;classic;coupe
+Toyota;RAV4;2021;AWD;piros;classic;suv
+Toyota;Highlander;2022;AWD;fekete;classic;suv
+Toyota;Tacoma;2021;AWD;ezüst;classic;pickup
+Toyota;Land Cruiser;2020;AWD;fehér;luxury;suv
+Toyota;Supra;2020;RWD;sárga;luxury;sport
+Mercedes;AMG GT;2021;RWD;fekete;luxury;sport
+Mercedes;AMG GT63;2022;AWD;piros;luxury;sport
+Mercedes;GLE 350;2020;AWD;fehér;luxury;suv
+Mercedes;GLK 250;2015;AWD;szürke;classic;suv
+Mercedes;GLC 300;2021;AWD;kék;luxury;suv
+Mclaren;P1;2015;RWD;narancs;luxury;sport
+Mclaren;765lt;2021;RWD;lila;luxury;sport
+Mclaren;720s;2019;RWD;ezüst;luxury;sport
+Brabus;Mercedes gle 63;2022;AWD;fekete;luxury;suv
+Brabus;Maybach;2021;AWD;fehér;luxury;suv
+Brabus;g63 amg;2021;AWD;fekete;luxury;suv
+Brabus;G wagon;2022;AWD;fekete;luxury;suv
