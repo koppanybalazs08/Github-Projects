@@ -1,0 +1,1 @@
+Ez az órai JavaSrcipt munkámon alapuló rövid python projekt, ami flaskot használ
