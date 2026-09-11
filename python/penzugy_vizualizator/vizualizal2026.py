@@ -32,7 +32,7 @@ def fetch_data(sheet):
 def write_data():
     data_table.to_excel("konyveles_pandas_format.xlsx")
 
-#Záró étékek vizualizálása (babakötvény + szumma | készpénz + bankkártya + likvid szumma)
+#Záró étékek (babakötvény + szumma | készpénz + bankkártya + likvid szumma)
 def zaro():
 
     #formázás
@@ -59,7 +59,7 @@ def zaro():
     plt.savefig(f"zaro_{sheet}.png")
     plt.show()
 
-#bevétel és kiadás vizualizálása
+#bevétel és kiadás
 def be_ki():
 
     plt.figure(figsize = (8,6))
@@ -98,20 +98,47 @@ def kp_bk_arany():
     plt.savefig(f"kp_bk_arany_{sheet}.png")
     plt.show()
 
+#Profit
+def profit():
+
+    #saját szín paletta nyereségesség alapján való színezéshez
+    color_palette = []
+    for i,value in enumerate(data_table["profit"]):
+        if value >= 0:
+            color_palette.append("green")
+        elif value < 0:
+            color_palette.append("red") 
+    
+
+    plt.figure(figsize = (8,6))
+    plt.title("Havi profit(Ft)")
+
+    #oszlopdiagram
+    sns.barplot(data = data_table["profit"], palette = color_palette)
+
+    #formázás
+    plt.ylabel("Forint")
+    plt.xlabel("Hónap")
+    plt.xticks(ticks = list(range(0,12)), labels = data_table["honapok"], rotation = 30)
+    plt.savefig(f"profit_{sheet}.png")
+    plt.show()
+
+
 kimutatas_tipus = None
 
 sheet = input("Év: ")
 data_table = fetch_data(sheet)
 
 #menü, mainloop
-while kimutatas_tipus != "5":
+while kimutatas_tipus != "6":
 
     kimutatas_tipus = input("Kimutatás típusa:\n"
                             "1. Záró - 1\n"
                             "2. Bevétel és Kiadás - 2\n"
                             "3. Bankkártya és Készpénz használat - 3\n"
-                            "4. Formázatlan adat kiadása - 4\n"
-                            "5. Kilépés - 5\n"
+                            "4. Profit - 4\n"
+                            "5. Formázatlan adat kiadása - 5\n"
+                            "6. Kilépés - 6\n"
                             ": ")
 
     if kimutatas_tipus == "1":
@@ -121,4 +148,6 @@ while kimutatas_tipus != "5":
     elif kimutatas_tipus == "3":
         kp_bk_arany()
     elif kimutatas_tipus == "4":
+        profit()
+    elif kimutatas_tipus == "5":
         write_data()
