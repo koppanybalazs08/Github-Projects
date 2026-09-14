@@ -4,7 +4,7 @@ import seaborn as sns
 
 #Adat szerzés és tisztítás 
 def fetch_data(sheet):
-    table = pd.read_excel("konyveles.xlsx", sheet_name = sheet)
+    table = pd.read_excel("excel/konyveles.xlsx", sheet_name = sheet)
     
     #szumma táblázat
     sum_table = table.iloc[[0,2,3,4,5,6],list(range(14, len(table.columns), 14))]
@@ -30,7 +30,7 @@ def fetch_data(sheet):
 
 #data_table exportálása excel fájlba
 def write_data():
-    data_table.to_excel("konyveles_pandas_format.xlsx")
+    data_table.to_excel("excel/konyveles_pandas_format.xlsx")
 
 #Záró étékek (babakötvény + szumma | készpénz + bankkártya + likvid szumma)
 def zaro():
@@ -56,7 +56,7 @@ def zaro():
     #x tengely
     plt.xticks(ticks = list(range(0,12)), labels = data_table["honapok"], rotation = 30)
 
-    plt.savefig(f"zaro_{sheet}.png")
+    plt.savefig(f"kimutatasok/zaro_{sheet}.png")
     plt.show()
 
 #bevétel és kiadás
@@ -75,7 +75,7 @@ def be_ki():
     plt.ylabel("Forint")
     plt.xlabel("Hónap")
     plt.xticks(ticks = list(range(0,12)), labels = data_table["honapok"], rotation = 30)
-    plt.savefig(f"be_ki_{sheet}.png")
+    plt.savefig(f"kimutatasok/be_ki_{sheet}.png")
     plt.show()
 
 #bankártya és készpénz használatának aránya (kiadás | bevétel)
@@ -95,7 +95,7 @@ def kp_bk_arany():
     axes[0].pie([kp_be_mean, bk_be_mean], labels = [f"készpénz bevétel: {kp_be_mean / be_sum * 100 :.2f}%", f"bankkártya bevétel: {bk_be_mean / be_sum * 100 :.2f}%"], colors = ["green", "blue"], explode = [0.1, 0.1], shadow = True)
     axes[1].pie([kp_ki_mean, bk_ki_mean], labels = [f"készpénz kiadás: {kp_ki_mean / ki_sum * 100 :.2f}%", f"bankkártya kiadás: {bk_ki_mean / ki_sum * 100 :.2f}%"], colors = ["limegreen", "cornflowerblue"], explode = [0.1, 0.1], shadow = True)
 
-    plt.savefig(f"kp_bk_arany_{sheet}.png")
+    plt.savefig(f"kimutatasok/kp_bk_arany_{sheet}.png")
     plt.show()
 
 #Profit
@@ -120,7 +120,7 @@ def profit():
     plt.ylabel("Forint")
     plt.xlabel("Hónap")
     plt.xticks(ticks = list(range(0,12)), labels = data_table["honapok"], rotation = 30)
-    plt.savefig(f"profit_{sheet}.png")
+    plt.savefig(f"kimutatasok/profit_{sheet}.png")
     plt.show()
 
 
