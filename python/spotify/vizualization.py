@@ -33,15 +33,15 @@ popularity_duration = popularity_duration[popularity_duration["duration_s"] <= n
 
 explode = [0.1, 0.1, 0.1]
 piechart = axes[0][0].pie(track_counts_dt["no_of_artists"], shadow = True, explode = explode, startangle = 30)
-axes[0][0].pie_label(piechart, track_counts_dt["category"], distance = 1.2)
+axes[0][0].pie_label(piechart, track_counts_dt["category"], distance = 1.1)
 axes[0][0].pie_label(piechart, '{frac:.1%}', distance = 0.8)
 axes[0][0].set_title("Percentage of artists with more than x tracks")
 
-barplot = sns.barplot(ax = axes[0][1], data = top_5_artists, y = "track_count", x = "artist")
+barplot = sns.barplot(ax = axes[0][1], data = top_5_artists, y = "track_count", x = "artist", color = "#FFC832")
 barplot.set(xlabel = "", title = "top 5 artists & the number of track they have")
 barplot.set_xticks(top_5_artists["artist"], labels = top_5_artists["artist"], rotation = 15)
 
-scatterplot = sns.scatterplot(ax = axes[1][0], data = popularity_duration, x = "duration_s", y = "popularity")
+scatterplot = sns.scatterplot(ax = axes[1][0], data = popularity_duration, x = "duration_s", y = "popularity", s = 15)
 scatterplot.set(xlabel = "duration in seconds", title = "popularity vs track length")
 
 plt.show()
