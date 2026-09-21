@@ -1,0 +1,1 @@
+Mindig mindent elfelejtek, ezért nem árt ha kapok emlékeztetőt mikor elindul a gépem
