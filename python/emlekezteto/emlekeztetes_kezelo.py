@@ -27,21 +27,28 @@ def emlekeztetes_torles(index : int, adat : pd.DataFrame):
 
 adat = pd.read_json("adat.json")
 
+print(adat.to_string())
 print("Válasszon a lehetőségek közül:\n" \
         "\t 1 - Új emlékeztetés\n" \
         "\t 2 - Emlékeztetés szerkesztése\n" \
         "\t 3 - Emlékeztetés törlése\n" \
         "\t ex - Kilépés\n")
 valasztas = input("A válassz(1, 2, 3, ex): ")
-print(adat.to_string())
 
-if valasztas == "1":
-    adat = uj_emlekeztetes(input("emlékeztetés címe: "), int(input("emlékeztetés időzítése (mennyivel indítás után jelenjen meg) : ")), adat)
+while valasztas != "ex":
+    if valasztas == "1":
+        adat = uj_emlekeztetes(input("emlékeztetés címe: "), int(input("emlékeztetés időzítése (mennyivel indítás után jelenjen meg) : ")), adat)
 
-elif valasztas == "2":
-    adat = emlekeztetes_szerkesztes(int(input("Emlékeztetés index-e: ")), input("emlékeztetés új címe: "), int(input("emlékeztetés időzítése (mennyivel indítás után jelenjen meg) : ")), adat)
+    elif valasztas == "2":
+        adat = emlekeztetes_szerkesztes(int(input("Emlékeztetés index-e: ")), input("emlékeztetés új címe: "), int(input("emlékeztetés időzítése (mennyivel indítás után jelenjen meg) : ")), adat)
 
-elif valasztas == "3":
-    adat = emlekeztetes_torles(int(input("Emlékeztetés index-e: ")), adat)
+    elif valasztas == "3":
+        adat = emlekeztetes_torles(int(input("Emlékeztetés index-e: ")), adat)
 
-print(adat.to_string())
+    print(adat.to_string())
+    print("Válasszon a lehetőségek közül:\n" \
+        "\t 1 - Új emlékeztetés\n" \
+        "\t 2 - Emlékeztetés szerkesztése\n" \
+        "\t 3 - Emlékeztetés törlése\n" \
+        "\t ex - Kilépés\n")
+    valasztas = input("A válassz(1, 2, 3, ex): ")
