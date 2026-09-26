@@ -1,10 +1,11 @@
 #import
+import pygame
 from Button import button
 import Elements.game
 import Elements.replay
-import json
-import pygame
 from Encryption import encryption
+from pandas import read_json, DataFrame
+
 
 pygame.init()
 
@@ -49,12 +50,14 @@ while in_menu:
 
     #rekord beolvasása, kiírása
     try:
-        with open('log.json', 'r') as logjson:
-            data_in = json.load(logjson)
-            record = encryption.decrypt(data_in["record"])
+        data_in = read_json("log.json")
+
+        record = encryption.decrypt(data_in.loc[:,["record"]].to_string(index = False, header = False))[0]
+            
     except FileNotFoundError:
         record = 0
-    except json.decoder.JSONDecodeError:
+
+    except ValueError:
         record = 0
 
     record = font.render('Rekord: ' + str(record), True, (0, 0, 0))

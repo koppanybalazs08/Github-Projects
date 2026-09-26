@@ -1,7 +1,7 @@
 def Replay(screen):
     import pygame
-    import json
     from Encryption import encryption
+    from pandas import read_json, DataFrame
 
     pygame.init()
 
@@ -25,19 +25,17 @@ def Replay(screen):
 
     #log olvasása/ bug control
     try:
-        with open('log.json') as logjson:
-            data = json.load(logjson)
-            most_in_round = encryption.decrypt(data["most_in_round"])
-            log = encryption.convert_str_to_list_of_lists(encryption.decrypt(data["log"]))
+
+        data_in = read_json("log.json")
+        if len(data_in.loc[:,["most_in_round"]]) > 0 and len(data_in.loc[:,["log"]]) > 0:
+            most_in_round = encryption.decrypt(data_in.loc[:,["most_in_round"]].to_string(index = False, header = False))[0]
+            print(encryption.decrypt(data_in.loc[:, ["log"]].to_string(index = False, header = False))[0])
+            log = encryption.convert_str_to_list_of_lists(encryption.decrypt(data_in.loc[:, ["log"]].to_string(index = False, header = False))[0])
+
     except FileNotFoundError:
-        print('Üres a log :/')
         run = False
         pygame.quit()
     
-    except json.decoder.JSONDecodeError:
-        print('Üres a log :/')
-        run = False
-        pygame.quit()
         
     #Visszajátszás
     while run:
@@ -65,4 +63,3 @@ def Replay(screen):
             if event.type == pygame.QUIT:
                 run = False
         pygame.display.update()
-  

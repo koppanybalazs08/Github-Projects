@@ -1,10 +1,10 @@
 abc = [
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
-    "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","_", "-",
-    "'","{","}", "," ,"[", "]", "(", ")", "2", "3", "4",  "1", "0", "5","6", "7", "8", "9", ":" , " "    
+    "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_", "-",
+    "'", "{", "}", "," ,"[", "]", "(", ")", "2", "3", "4",  "1", "0", "5","6", "7", "8", "9", ":" , " "
 ]
 #sztring átalakítás listás listává
-def convert_str_to_list_of_lists(str_in):
+def convert_str_to_list_of_lists(str_in : str):
     str_in = str_in.strip("[]")
     pairs = str_in.split("], [")
 
@@ -18,7 +18,7 @@ def convert_str_to_list_of_lists(str_in):
     return list_out
 
 #Kódíró funkció
-def encrypt(str_in,char_in,abc = abc):
+def encrypt(str_in : str, char_in : str, abc = abc):
     output = ''
 
     #módosító karakter feldolgozása
@@ -41,11 +41,10 @@ def encrypt(str_in,char_in,abc = abc):
         #Végeredmény mentése, kiírása
         output = output + ' ' + char_in
         
-    return output
-
+    return [output]
 
 #Kód olvasó funkció
-def decrypt(str_in:str,abc = abc):
+def decrypt(str_in:str, abc = abc):
     output = ''
     list_in = str_in.split()
     char_in = list_in.pop(-1)
@@ -65,13 +64,11 @@ def decrypt(str_in:str,abc = abc):
                     character = abc[int(i) - modifier]
                     output += str(character)
                 else:
-                    print(i)
                     output = ''
                     break
             except Exception:
-                print(i)
                 output = ''
                 break
 
     #Végeredmény mentése, kiírása
-    return output
+    return [output]

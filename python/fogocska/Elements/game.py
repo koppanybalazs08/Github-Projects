@@ -1,10 +1,11 @@
 def Game(screen):
     #import
-    import json
+    
     import pygame
+    from Encryption import encryption
     from random import shuffle, randint
     from time import sleep
-    from Encryption import encryption
+    from pandas import read_json, DataFrame
 
     '''
     todo:
@@ -75,7 +76,7 @@ def Game(screen):
     #Játékos (búvár)
     player = entity(pygame.Rect((300, 250, 50, 50)), pygame.image.load('images/playerS.png'), 3)
     player.rect.center = [300, 250]
-    log.append(list(player.rect.center).copy())
+    log.append(list().copy())
 
     #Gameloop
     run = True
@@ -86,33 +87,33 @@ def Game(screen):
 
                 try:
                     #record beolvasás, titkosítás feloldása
-                    with open('log.json','r') as logjson:
+                    data_in = read_json("log.json")
 
-                        data_in = json.load(logjson)
-                        record = encryption.decrypt(data_in["record"])
+                    record = encryption.decrypt(data_in.loc[:,["record"]].to_string(index = False, header = False))[0]
 
-                        if most_in_round > int(record):
-                            record = most_in_round
-                        
-                        data_out = {}
+                    if most_in_round > int(record):
+                        record = most_in_round
+                    
+                    data_out = DataFrame()
+
 
                 except FileNotFoundError:
-                    data_out = {}
+                    data_out = DataFrame()
                     record = most_in_round
-                
-                except json.decoder.JSONDecodeError:
-                    data_out = {}
+
+                except ValueError:
+                    data_out = DataFrame()
                     record = most_in_round
                 
                 #adat titkosítás
                 abc = encryption.abc
                 modifier = abc[randint(0,len(abc) - 1)]
-                data_out["log"] = encryption.encrypt(str(log),modifier)
-                data_out["most_in_round"] = encryption.encrypt(str(most_in_round),modifier)
-                data_out["record"] = encryption.encrypt(str(record),modifier)
+                data_out.insert(0, "log", encryption.encrypt(str(log[1:]), modifier))
+                data_out.insert(1, "most_in_round", encryption.encrypt(str(most_in_round), modifier))
+                data_out.insert(2, "record", encryption.encrypt(str(record), modifier))
 
-                with open('log.json','w') as logjson:
-                    json.dump(data_out, logjson)
+                print(data_out.head())
+                data_out.to_json("log.json")
 
                 run = False
 
@@ -135,7 +136,7 @@ def Game(screen):
                 textrect.center = (S_Width // 2, S_Height // 2)
                 screen.blit(text, textrect)
                 pygame.display.update()
-                             
+
             else:
                 logcount -= 1
 
