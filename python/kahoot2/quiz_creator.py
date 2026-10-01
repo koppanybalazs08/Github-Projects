@@ -9,7 +9,7 @@ class Quiz_Creator:
         self.WIDTH = WIDTH
         self.FONT = FONT
         self.data_out = pd.DataFrame({"question" : [], "A" : [], "B" : [], "C" : [], "D" : [], "correct" : []})
-        self.correct_ans = "-"
+        self.correct_ans = ctk.StringVar(value = "-")
 
         self.A_entry = ctk.CTkEntry(window, placeholder_text = '"A" option', width = self.WIDTH // 2, font = self.FONT)
         self.B_entry = ctk.CTkEntry(window, placeholder_text = '"B" option', width = self.WIDTH // 2, font = self.FONT)
@@ -30,10 +30,10 @@ class Quiz_Creator:
         self.question_textbox.delete("0.0", "end")
         self.question_textbox.insert("0.0", "Írj ide egy címet!")
 
-        self.btn_list[0].configure(text = "Correct", command = lambda: self.correct_ans.replace("-", "A"))
-        self.btn_list[1].configure(text = "Correct", command = lambda: self.correct_ans.replace("-", "B"))
-        self.btn_list[2].configure(text = "Correct", command = lambda: self.correct_ans.replace("-", "C"))
-        self.btn_list[3].configure(text = "Correct", command = lambda: self.correct_ans.replace("-", "D"))
+        self.btn_list[0].configure(text = "Correct", command = lambda: self.correct_ans.set("A"))
+        self.btn_list[1].configure(text = "Correct", command = lambda: self.correct_ans.set("B"))
+        self.btn_list[2].configure(text = "Correct", command = lambda: self.correct_ans.set("C"))
+        self.btn_list[3].configure(text = "Correct", command = lambda: self.correct_ans.set("D"))
 
         self.next_btn.configure(text = "Next Question", command = lambda: self.save_question())
         
@@ -67,10 +67,10 @@ class Quiz_Creator:
         "B" : [self.B_entry.get()], 
         "C" : [self.C_entry.get()], 
         "D" : [self.D_entry.get()], 
-        "correct" : [self.correct_ans]})], 
+        "correct" : [self.correct_ans.get()]})], 
         ignore_index=True)
 
-        self.correct_ans = "-"
+        self.correct_ans.set("-")
         self.new_question()
 
     def submit_quiz(self, title):
