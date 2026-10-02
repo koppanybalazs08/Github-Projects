@@ -1,5 +1,5 @@
 ,question,A,B,C,D,correct
-0,"test
-",1,2,3,4,PY_VAR0
-1,"test2
-",a,b,c,d,PY_VAR0
+0,"Cím
+",a,b,c,d,C
+1,"gecím
+",1,2,3,4,D

@@ -3,7 +3,7 @@ import pandas as pd
 
 class Quiz_Creator:
 
-    def __init__(self, WIDTH, FONT, window, btn_list):
+    def __init__(self, WIDTH : int, FONT, window, btn_list):
         #create width, font, output data and elements
         print("lefut")
         self.WIDTH = WIDTH
@@ -30,14 +30,22 @@ class Quiz_Creator:
         self.question_textbox.delete("0.0", "end")
         self.question_textbox.insert("0.0", "Írj ide egy címet!")
 
-        self.btn_list[0].configure(text = "Correct", command = lambda: self.correct_ans.set("A"))
-        self.btn_list[1].configure(text = "Correct", command = lambda: self.correct_ans.set("B"))
-        self.btn_list[2].configure(text = "Correct", command = lambda: self.correct_ans.set("C"))
-        self.btn_list[3].configure(text = "Correct", command = lambda: self.correct_ans.set("D"))
+        #configure buttons
+        self.btn_list[0].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
+        text = "Correct", command = lambda: self.set_correct_ans("A", 0), state = "normal")
+        
+        self.btn_list[1].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
+        text = "Correct", command = lambda: self.set_correct_ans("B", 1), state = "normal")
+        
+        self.btn_list[2].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
+        text = "Correct", command = lambda: self.set_correct_ans("C", 2), state = "normal")
+        
+        self.btn_list[3].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
+        text = "Correct", command = lambda: self.set_correct_ans("D", 3), state = "normal")
 
         self.next_btn.configure(text = "Next Question", command = lambda: self.save_question())
         
-        self.submit_btn.configure(text = "Submit Quiz", command = lambda: self.submit_quiz(self.title_entry.get()))
+        self.submit_btn.configure(text = "Submit Quiz", command = lambda: self.submit_quiz())
 
         #place elements
         self.question_textbox.place(relx = 0)
@@ -58,8 +66,17 @@ class Quiz_Creator:
         self.submit_btn.place(relx = 0.5, rely = 0.9)
 
         self.next_btn.place(relx = 0.75, rely = 0.9)
-        
 
+    #save the correct answer and dissable all buttons letter : which button is the correct (A-D) index: button index (0-3)
+    def set_correct_ans(self, letter : str, index : int):
+        self.correct_ans.set(letter)
+        self.btn_list[0].configure(state = "disabled")
+        self.btn_list[1].configure(state = "disabled")
+        self.btn_list[2].configure(state = "disabled")
+        self.btn_list[3].configure(state = "disabled")
+        self.btn_list[index].configure(text_color_disabled = "#ffffff")
+
+    #save the question to DataFrame, and reset values
     def save_question(self):
         self.data_out = pd.concat([self.data_out, pd.DataFrame({
         "question" : [self.question_textbox.get("0.0","end")], 
@@ -71,8 +88,17 @@ class Quiz_Creator:
         ignore_index=True)
 
         self.correct_ans.set("-")
+        self.A_entry.set("")
+        self.B_entry.set("")
+        self.C_entry.set("")
+        self.D_entry.set("")
+
         self.new_question()
 
-    def submit_quiz(self, title):
-        self.data_out.to_csv(f"{title}.csv")
+    #save quiz to file, and reset the data_out DataFrame
+    def submit_quiz(self):
+        self.save_question()
+        self.data_out.to_csv(f"{self.title_entry.get()}.csv")
+
+        self.title_entry.set("")
         self.data_out = pd.DataFrame({"question" : [], "A" : [], "B" : [], "C" : [], "D" : [], "correct" : []})

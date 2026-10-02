@@ -21,10 +21,11 @@ B_btn = ctk.CTkButton(window, font = FONT)
 C_btn = ctk.CTkButton(window, font = FONT)
 D_btn = ctk.CTkButton(window, font = FONT)
 
+#Create quiz
 new_quiz = quiz_creator.Quiz_Creator(WIDTH, FONT, window, [A_btn, B_btn, C_btn, D_btn])
-
 create_btn.configure(command = lambda: new_quiz.new_question())
 
+#place button on temporary location for tests
 create_btn.place(relx = 0.6, rely = 0.7)
 
 window.mainloop()
