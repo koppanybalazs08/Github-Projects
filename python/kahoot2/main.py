@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import quiz_creator
+import quiz
 
 #Globals
 WIDTH = 750
@@ -25,7 +26,11 @@ D_btn = ctk.CTkButton(window, font = FONT)
 new_quiz = quiz_creator.Quiz_Creator(WIDTH, FONT, window, [A_btn, B_btn, C_btn, D_btn])
 create_btn.configure(command = lambda: new_quiz.new_question())
 
+solve_quiz = quiz.Quiz(WIDTH, FONT, window, [A_btn, B_btn, C_btn, D_btn])
+start_btn.configure(command = lambda: solve_quiz.quiz_selector())
+
+
 #place button on temporary location for tests
-create_btn.place(relx = 0.6, rely = 0.7)
+start_btn.place(relx = 0.6, rely = 0.7)
 
 window.mainloop()

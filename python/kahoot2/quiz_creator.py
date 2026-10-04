@@ -21,7 +21,6 @@ class Quiz_Creator:
         self.submit_btn = ctk.CTkButton(window, font = FONT)
         self.btn_list = btn_list
 
-
     #creating new quiz
     def new_question(self):
 
@@ -32,16 +31,16 @@ class Quiz_Creator:
 
         #configure buttons
         self.btn_list[0].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
-        text = "Correct", command = lambda: self.set_correct_ans("A", 0), state = "normal")
+        text = "Correct", command = lambda: self.set_correct_ans(0), state = "normal")
         
         self.btn_list[1].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
-        text = "Correct", command = lambda: self.set_correct_ans("B", 1), state = "normal")
+        text = "Correct", command = lambda: self.set_correct_ans(1), state = "normal")
         
         self.btn_list[2].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
-        text = "Correct", command = lambda: self.set_correct_ans("C", 2), state = "normal")
+        text = "Correct", command = lambda: self.set_correct_ans(2), state = "normal")
         
         self.btn_list[3].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
-        text = "Correct", command = lambda: self.set_correct_ans("D", 3), state = "normal")
+        text = "Correct", command = lambda: self.set_correct_ans(3), state = "normal")
 
         self.next_btn.configure(text = "Next Question", command = lambda: self.save_question())
         
@@ -68,8 +67,8 @@ class Quiz_Creator:
         self.next_btn.place(relx = 0.75, rely = 0.9)
 
     #save the correct answer and dissable all buttons letter : which button is the correct (A-D) index: button index (0-3)
-    def set_correct_ans(self, letter : str, index : int):
-        self.correct_ans.set(letter)
+    def set_correct_ans(self, index : int):
+        self.correct_ans.set(index)
         self.btn_list[0].configure(state = "disabled")
         self.btn_list[1].configure(state = "disabled")
         self.btn_list[2].configure(state = "disabled")
