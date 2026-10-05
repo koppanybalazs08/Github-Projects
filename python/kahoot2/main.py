@@ -23,14 +23,15 @@ C_btn = ctk.CTkButton(window, font = FONT)
 D_btn = ctk.CTkButton(window, font = FONT)
 
 #Create quiz
-new_quiz = quiz_creator.Quiz_Creator(WIDTH, FONT, window, [A_btn, B_btn, C_btn, D_btn])
+new_quiz = quiz_creator.Quiz_Creator(WIDTH, [start_btn, create_btn], FONT, window, [A_btn, B_btn, C_btn, D_btn])
 create_btn.configure(command = lambda: new_quiz.new_question())
 
-solve_quiz = quiz.Quiz(WIDTH, FONT, window, [A_btn, B_btn, C_btn, D_btn])
+solve_quiz = quiz.Quiz(WIDTH, [start_btn, create_btn], FONT, window, [A_btn, B_btn, C_btn, D_btn])
 start_btn.configure(command = lambda: solve_quiz.quiz_selector())
 
 
 #place button on temporary location for tests
 start_btn.place(relx = 0.6, rely = 0.7)
+create_btn.place(relx = 0.1, rely = 0.5)
 
 window.mainloop()

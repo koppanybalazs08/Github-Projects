@@ -3,14 +3,15 @@ import pandas as pd
 
 class Quiz_Creator:
 
-    def __init__(self, WIDTH : int, FONT, window, btn_list):
+    def __init__(self, WIDTH : int, last_elements : list, FONT, window, btn_list):
+
         #create width, font, output data and elements
-        print("lefut")
         self.WIDTH = WIDTH
         self.FONT = FONT
         self.data_out = pd.DataFrame({"question" : [], "A" : [], "B" : [], "C" : [], "D" : [], "correct" : []})
         self.correct_ans = ctk.StringVar(value = "-")
 
+        self.last_elements = last_elements
         self.A_entry = ctk.CTkEntry(window, placeholder_text = '"A" option', width = self.WIDTH // 2, font = self.FONT)
         self.B_entry = ctk.CTkEntry(window, placeholder_text = '"B" option', width = self.WIDTH // 2, font = self.FONT)
         self.C_entry = ctk.CTkEntry(window, placeholder_text = '"C" option', width = self.WIDTH // 2, font = self.FONT)
@@ -23,6 +24,10 @@ class Quiz_Creator:
 
     #creating new quiz
     def new_question(self):
+
+        if self.last_elements[0].winfo_manager() != "":
+            for element in self.last_elements:
+                element.place_forget()
 
         #set elements
         self.question_textbox.configure(state = "normal")
@@ -96,8 +101,22 @@ class Quiz_Creator:
 
     #save quiz to file, and reset the data_out DataFrame
     def submit_quiz(self):
-        self.save_question()
         self.data_out.to_csv(f"{self.title_entry.get()}.csv")
 
         self.title_entry.set("")
         self.data_out = pd.DataFrame({"question" : [], "A" : [], "B" : [], "C" : [], "D" : [], "correct" : []})
+
+        self.A_entry.place_forget()
+        self.B_entry.place_forget()
+        self.C_entry.place_forget()
+        self.D_entry.place_forget()
+        self.title_entry.place_forget()
+        self.question_textbox.place_forget()
+        self.next_btn.place_forget()
+        self.submit_btn.place_forget()
+
+        for btn in self.btn_list:
+            btn.place_forget()
+
+        for element in self.last_elements:
+            element.place_forget()

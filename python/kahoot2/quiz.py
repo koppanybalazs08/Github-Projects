@@ -3,13 +3,14 @@ import pandas as pd
 
 class Quiz():
 
-    def __init__(self, WIDTH : int, FONT, window, btn_list):
+    def __init__(self, WIDTH : int, last_elements : list, FONT, window, btn_list):
         #create width, font, output data, points and elements
         self.WIDTH = WIDTH
         self.FONT = FONT
         self.quiz_data = None
         self.points = 0
 
+        self.last_elements = last_elements
         self.btn_list = btn_list
         self.next_btn = ctk.CTkButton(window, font = FONT, text = "Next")
         self.question_textbox = ctk.CTkTextbox(window, width = WIDTH, height = 60, font = FONT)
@@ -50,11 +51,13 @@ class Quiz():
     def quiz_selector(self):
         self.quiz_data = pd.read_csv(ctk.filedialog.askopenfilename(), index_col = 0)
         self.do_quiz(0)
-        
+
+        if self.last_elements[0].winfo_manager() != "":
+            for element in self.last_elements:
+                element.place_forget()
 
     def check_correct(self, question_number, answer):
         correct = self.quiz_data["correct"].iloc[question_number]
-        print(type(correct))
 
         for i in range(len(self.btn_list)):
             if i == correct:
@@ -69,4 +72,10 @@ class Quiz():
         if len(self.quiz_data) > question_number + 1:
             self.do_quiz(question_number + 1)
         else:
-            print(self.points)
+            self.next_btn.place_forget()
+            self.question_textbox.place_forget()
+            for btn in self.btn_list:
+                btn.place_forget()
+
+            for element in self.last_elements:
+                element.place_forget()
