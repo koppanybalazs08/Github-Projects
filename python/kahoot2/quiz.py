@@ -55,10 +55,6 @@ class Quiz():
         self.quiz_data = pd.read_csv(ctk.filedialog.askopenfilename(), index_col = 0)
         self.do_quiz(0)
 
-        if self.last_elements[0].winfo_manager() != "":
-            for element in self.last_elements:
-                element.place_forget()
-
     def check_correct(self, question_number, answer):
         correct = self.quiz_data["correct"].iloc[question_number]
 

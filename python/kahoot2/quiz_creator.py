@@ -26,12 +26,6 @@ class Quiz_Creator:
     #creating new quiz
     def new_question(self):
 
-        """
-        if self.last_elements[0].winfo_manager() != "":
-            for element in self.last_elements:
-                element.place_forget()
-        """
-
         #set elements
         self.question_textbox.configure(state = "normal")
         self.question_textbox.delete("0.0", "end")
@@ -113,20 +107,3 @@ class Quiz_Creator:
         self.data_out = pd.DataFrame({"question" : [], "A" : [], "B" : [], "C" : [], "D" : [], "correct" : []})
 
         self.last_elements.tkraise()
-        
-        """
-        self.A_entry.place_forget()
-        self.B_entry.place_forget()
-        self.C_entry.place_forget()
-        self.D_entry.place_forget()
-        self.title_entry.place_forget()
-        self.question_textbox.place_forget()
-        self.next_btn.place_forget()
-        self.submit_btn.place_forget()
-
-        for btn in self.btn_list:
-            btn.place_forget()
-
-        for element in self.last_elements:
-            element.place_forget()
-        """
