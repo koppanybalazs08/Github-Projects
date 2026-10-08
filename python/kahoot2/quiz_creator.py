@@ -3,7 +3,7 @@ import pandas as pd
 
 class Quiz_Creator:
 
-    def __init__(self, WIDTH : int, last_elements : list, FONT, window, btn_list):
+    def __init__(self, WIDTH : int, last_elements : list, FONT, frame, btn_list):
 
         #create width, font, output data and elements
         self.WIDTH = WIDTH
@@ -11,23 +11,26 @@ class Quiz_Creator:
         self.data_out = pd.DataFrame({"question" : [], "A" : [], "B" : [], "C" : [], "D" : [], "correct" : []})
         self.correct_ans = ctk.StringVar(value = "-")
 
+        self.frame = frame
         self.last_elements = last_elements
-        self.A_entry = ctk.CTkEntry(window, placeholder_text = '"A" option', width = self.WIDTH // 2, font = self.FONT)
-        self.B_entry = ctk.CTkEntry(window, placeholder_text = '"B" option', width = self.WIDTH // 2, font = self.FONT)
-        self.C_entry = ctk.CTkEntry(window, placeholder_text = '"C" option', width = self.WIDTH // 2, font = self.FONT)
-        self.D_entry = ctk.CTkEntry(window, placeholder_text = '"D" option', width = self.WIDTH // 2, font = self.FONT)
-        self.title_entry = ctk.CTkEntry(window, placeholder_text = 'Title of the quiz', width = self.WIDTH // 2.5, font = self.FONT)
-        self.question_textbox = ctk.CTkTextbox(window, width = WIDTH, height = 60, font = FONT)
-        self.next_btn = ctk.CTkButton(window, font = FONT)
-        self.submit_btn = ctk.CTkButton(window, font = FONT)
+        self.A_entry = ctk.CTkEntry(self.frame, placeholder_text = '"A" option', width = self.WIDTH // 2, font = self.FONT)
+        self.B_entry = ctk.CTkEntry(self.frame, placeholder_text = '"B" option', width = self.WIDTH // 2, font = self.FONT)
+        self.C_entry = ctk.CTkEntry(self.frame, placeholder_text = '"C" option', width = self.WIDTH // 2, font = self.FONT)
+        self.D_entry = ctk.CTkEntry(self.frame, placeholder_text = '"D" option', width = self.WIDTH // 2, font = self.FONT)
+        self.title_entry = ctk.CTkEntry(self.frame, placeholder_text = 'Title of the quiz', width = self.WIDTH // 2.5, font = self.FONT)
+        self.question_textbox = ctk.CTkTextbox(self.frame, width = WIDTH, height = 60, font = FONT)
+        self.next_btn = ctk.CTkButton(self.frame, font = FONT)
+        self.submit_btn = ctk.CTkButton(self.frame, font = FONT)
         self.btn_list = btn_list
 
     #creating new quiz
     def new_question(self):
 
+        """
         if self.last_elements[0].winfo_manager() != "":
             for element in self.last_elements:
                 element.place_forget()
+        """
 
         #set elements
         self.question_textbox.configure(state = "normal")
@@ -36,16 +39,16 @@ class Quiz_Creator:
 
         #configure buttons
         self.btn_list[0].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
-        text = "Correct", command = lambda: self.set_correct_ans(0), state = "normal")
+        text = "A Correct", command = lambda: self.set_correct_ans(0), state = "normal")
         
         self.btn_list[1].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
-        text = "Correct", command = lambda: self.set_correct_ans(1), state = "normal")
+        text = "B Correct", command = lambda: self.set_correct_ans(1), state = "normal")
         
         self.btn_list[2].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
-        text = "Correct", command = lambda: self.set_correct_ans(2), state = "normal")
+        text = "C Correct", command = lambda: self.set_correct_ans(2), state = "normal")
         
         self.btn_list[3].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
-        text = "Correct", command = lambda: self.set_correct_ans(3), state = "normal")
+        text = "D Correct", command = lambda: self.set_correct_ans(3), state = "normal")
 
         self.next_btn.configure(text = "Next Question", command = lambda: self.save_question())
         
@@ -70,6 +73,8 @@ class Quiz_Creator:
         self.submit_btn.place(relx = 0.5, rely = 0.9)
 
         self.next_btn.place(relx = 0.75, rely = 0.9)
+
+        self.frame.tkraise()
 
     #save the correct answer and dissable all buttons letter : which button is the correct (A-D) index: button index (0-3)
     def set_correct_ans(self, index : int):
@@ -101,11 +106,15 @@ class Quiz_Creator:
 
     #save quiz to file, and reset the data_out DataFrame
     def submit_quiz(self):
+        self.save_question()
         self.data_out.to_csv(f"{self.title_entry.get()}.csv")
 
         self.title_entry.set("")
         self.data_out = pd.DataFrame({"question" : [], "A" : [], "B" : [], "C" : [], "D" : [], "correct" : []})
 
+        self.last_elements.tkraise()
+        
+        """
         self.A_entry.place_forget()
         self.B_entry.place_forget()
         self.C_entry.place_forget()
@@ -120,3 +129,4 @@ class Quiz_Creator:
 
         for element in self.last_elements:
             element.place_forget()
+        """

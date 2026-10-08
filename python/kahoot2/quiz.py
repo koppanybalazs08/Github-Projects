@@ -3,17 +3,18 @@ import pandas as pd
 
 class Quiz():
 
-    def __init__(self, WIDTH : int, last_elements : list, FONT, window, btn_list):
+    def __init__(self, WIDTH : int, last_elements : list, FONT, frame, btn_list):
         #create width, font, output data, points and elements
         self.WIDTH = WIDTH
         self.FONT = FONT
         self.quiz_data = None
         self.points = 0
 
+        self.frame = frame
         self.last_elements = last_elements
         self.btn_list = btn_list
-        self.next_btn = ctk.CTkButton(window, font = FONT, text = "Next")
-        self.question_textbox = ctk.CTkTextbox(window, width = WIDTH, height = 60, font = FONT)
+        self.next_btn = ctk.CTkButton(frame, font = FONT, text = "Next")
+        self.question_textbox = ctk.CTkTextbox(frame, width = WIDTH, height = 60, font = FONT)
 
     def do_quiz(self, question_number):
 
@@ -47,6 +48,8 @@ class Quiz():
 
         self.next_btn.place(relx = 0.75, rely = 0.9)
 
+        self.frame.tkraise()
+
 
     def quiz_selector(self):
         self.quiz_data = pd.read_csv(ctk.filedialog.askopenfilename(), index_col = 0)
@@ -72,10 +75,4 @@ class Quiz():
         if len(self.quiz_data) > question_number + 1:
             self.do_quiz(question_number + 1)
         else:
-            self.next_btn.place_forget()
-            self.question_textbox.place_forget()
-            for btn in self.btn_list:
-                btn.place_forget()
-
-            for element in self.last_elements:
-                element.place_forget()
+            self.last_elements.tkraise()
