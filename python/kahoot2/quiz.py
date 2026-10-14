@@ -14,7 +14,8 @@ class Quiz():
         self.last_elements = last_elements
         self.btn_list = btn_list
         self.next_btn = ctk.CTkButton(frame, font = FONT, text = "Next")
-        self.question_textbox = ctk.CTkTextbox(frame, width = WIDTH, height = 60, font = FONT)
+        self.question_textbox = ctk.CTkTextbox(frame, width = self.WIDTH, height = 60, font = FONT, fg_color = "#dee2ee")
+        self.points_textbox = ctk.CTkTextbox(frame, width = 100, height = 40, font = FONT, fg_color = "#dee2ee")
 
     def do_quiz(self, question_number):
 
@@ -67,8 +68,16 @@ class Quiz():
         if answer == correct:
             self.points += 1
 
+        self.points_textbox.configure(state = "normal")
+        self.points_textbox.delete("0.0", "end")
+        self.points_textbox.insert("0.0", f"{self.points}/{question_number + 1}")
+        self.points_textbox.configure(state = "disabled")
+
+        self.points_textbox.place(relx = 0.75, rely = 0.7)
+
     def next_question(self, question_number):
         if len(self.quiz_data) > question_number + 1:
             self.do_quiz(question_number + 1)
+
         else:
             self.last_elements.tkraise()

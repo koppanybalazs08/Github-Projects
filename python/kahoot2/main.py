@@ -14,21 +14,21 @@ FONT_SIZE = 20
 FONT = ctk.CTkFont(FONT_FAMILY, FONT_SIZE)
 
 #Menu frame
-menu_frame = ctk.CTkFrame(window)
+menu_frame = ctk.CTkFrame(window, fg_color = "#dee2ee")
 start_btn = ctk.CTkButton(menu_frame, text = "Start")
 create_btn = ctk.CTkButton(menu_frame, text = "Create quiz")
-title_textbox = ctk.CTkTextbox(menu_frame, width = WIDTH, height = 60, font = FONT)
+title_textbox = ctk.CTkTextbox(menu_frame, width = WIDTH, height = 60, font = FONT, fg_color = "#dee2ee")
 title_textbox.insert("0.0", "Kahoot 2")
 title_textbox.configure(state = "disabled")
 
 #Create quiz frame
-new_quiz_frame = ctk.CTkFrame(window)
+new_quiz_frame = ctk.CTkFrame(window, fg_color = "#dee2ee")
 new_quiz_btn_list = [ctk.CTkButton(new_quiz_frame, font=FONT) for _ in range(4)]
 new_quiz = quiz_creator.Quiz_Creator(WIDTH, menu_frame, FONT, new_quiz_frame, new_quiz_btn_list)
 create_btn.configure(command = lambda: new_quiz.new_question())
 
 #Solve quiz frame
-solve_quiz_frame = ctk.CTkFrame(window)
+solve_quiz_frame = ctk.CTkFrame(window, fg_color = "#dee2ee")
 solve_quiz_btn_list = [ctk.CTkButton(solve_quiz_frame, font=FONT) for _ in range(4)]
 solve_quiz = quiz.Quiz(WIDTH, menu_frame, FONT, solve_quiz_frame, solve_quiz_btn_list)
 start_btn.configure(command = lambda: solve_quiz.quiz_selector())

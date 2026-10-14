@@ -17,19 +17,14 @@ class Quiz_Creator:
         self.B_entry = ctk.CTkEntry(self.frame, placeholder_text = '"B" option', width = self.WIDTH // 2, font = self.FONT)
         self.C_entry = ctk.CTkEntry(self.frame, placeholder_text = '"C" option', width = self.WIDTH // 2, font = self.FONT)
         self.D_entry = ctk.CTkEntry(self.frame, placeholder_text = '"D" option', width = self.WIDTH // 2, font = self.FONT)
-        self.title_entry = ctk.CTkEntry(self.frame, placeholder_text = 'Title of the quiz', width = self.WIDTH // 2.5, font = self.FONT)
-        self.question_textbox = ctk.CTkTextbox(self.frame, width = WIDTH, height = 60, font = FONT)
+        self.title_entry = ctk.CTkEntry(self.frame, placeholder_text = "Title of the quiz", width = self.WIDTH // 2.5, font = self.FONT)
+        self.question_entry = ctk.CTkEntry(self.frame, placeholder_text = "Title of the question", width = self.WIDTH // 2.5, font = FONT)
         self.next_btn = ctk.CTkButton(self.frame, font = FONT)
         self.submit_btn = ctk.CTkButton(self.frame, font = FONT)
         self.btn_list = btn_list
 
     #creating new quiz
     def new_question(self):
-
-        #set elements
-        self.question_textbox.configure(state = "normal")
-        self.question_textbox.delete("0.0", "end")
-        self.question_textbox.insert("0.0", "Írj ide egy címet!")
 
         #configure buttons
         self.btn_list[0].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8", 
@@ -49,7 +44,7 @@ class Quiz_Creator:
         self.submit_btn.configure(text = "Submit Quiz", command = lambda: self.submit_quiz())
 
         #place elements
-        self.question_textbox.place(relx = 0)
+        self.question_entry.place(relx = 0.05, rely = 0.05)
 
         self.A_entry.place(relx = 0.05, rely = 0.25)
         self.btn_list[0].place(relx = 0.6, rely = 0.25)
@@ -82,7 +77,7 @@ class Quiz_Creator:
     #save the question to DataFrame, and reset values
     def save_question(self):
         self.data_out = pd.concat([self.data_out, pd.DataFrame({
-        "question" : [self.question_textbox.get("0.0","end")], 
+        "question" : [self.question_entry.get()], 
         "A" : [self.A_entry.get()], 
         "B" : [self.B_entry.get()], 
         "C" : [self.C_entry.get()], 
@@ -91,6 +86,7 @@ class Quiz_Creator:
         ignore_index=True)
 
         self.correct_ans.set("-")
+        self.question_entry.set("")
         self.A_entry.set("")
         self.B_entry.set("")
         self.C_entry.set("")
