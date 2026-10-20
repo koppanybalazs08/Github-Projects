@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import pandas as pd
+import re
 
 class Quiz():
 
@@ -9,6 +10,8 @@ class Quiz():
         self.FONT = FONT
         self.quiz_data = None
         self.points = 0
+
+        self.file = None
 
         self.frame = frame
         self.last_elements = last_elements
@@ -53,7 +56,8 @@ class Quiz():
 
 
     def quiz_selector(self):
-        self.quiz_data = pd.read_csv(ctk.filedialog.askopenfilename(), index_col = 0)
+        self.file = ctk.filedialog.askopenfilename()
+        self.quiz_data = pd.read_csv(self.file, index_col = 0)
         self.do_quiz(0)
 
     def check_correct(self, question_number, answer):
@@ -80,4 +84,11 @@ class Quiz():
             self.do_quiz(question_number + 1)
 
         else:
+            data_out = pd.read_csv("quiz_points.csv", index_col = 0)
+            data_out = pd.concat([data_out, pd.DataFrame({
+                "quiz_name": [self.file.split("/")[-1]],
+                "points" : [self.points]
+            })],
+             ignore_index=True)
+            data_out.to_csv("quiz_points.csv")
             self.last_elements.tkraise()
