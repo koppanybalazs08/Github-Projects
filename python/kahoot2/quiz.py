@@ -4,12 +4,13 @@ import re
 
 class Quiz():
 
-    def __init__(self, WIDTH : int, last_elements : list, FONT, frame, btn_list):
+    def __init__(self, WIDTH : int, last_elements, FONT, frame, btn_list, menu_points_textbox):
         #create width, font, output data, points and elements
         self.WIDTH = WIDTH
         self.FONT = FONT
         self.quiz_data = None
         self.points = 0
+        self.question_number = 0
 
         self.file = None
 
@@ -19,28 +20,29 @@ class Quiz():
         self.next_btn = ctk.CTkButton(frame, font = FONT, text = "Next")
         self.question_textbox = ctk.CTkTextbox(frame, width = self.WIDTH, height = 60, font = FONT, fg_color = "#dee2ee")
         self.points_textbox = ctk.CTkTextbox(frame, width = 100, height = 40, font = FONT, fg_color = "#dee2ee")
+        self.menu_points_textbox = menu_points_textbox
 
-    def do_quiz(self, question_number):
+    def do_quiz(self):
 
         #Kérdés felirata
         self.question_textbox.configure(state = "normal")
         self.question_textbox.delete("0.0", "end")
-        self.question_textbox.insert("0.0", self.quiz_data["question"].iloc[question_number].strip())
+        self.question_textbox.insert("0.0", self.quiz_data["question"].iloc[self.question_number].strip())
         self.question_textbox.configure(state = "disabled")
 
         self.btn_list[0].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8",
-        text = self.quiz_data["A"].iloc[question_number], command = lambda: self.check_correct(question_number, 0), state = "normal")
+        text = self.quiz_data["A"].iloc[self.question_number], command = lambda: self.check_correct(0), state = "normal")
 
         self.btn_list[1].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8",
-        text = self.quiz_data["B"].iloc[question_number], command = lambda: self.check_correct(question_number, 1), state = "normal")
+        text = self.quiz_data["B"].iloc[self.question_number], command = lambda: self.check_correct(1), state = "normal")
 
         self.btn_list[2].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8",
-        text = self.quiz_data["C"].iloc[question_number], command = lambda: self.check_correct(question_number, 2), state = "normal")
+        text = self.quiz_data["C"].iloc[self.question_number], command = lambda: self.check_correct(2), state = "normal")
 
         self.btn_list[3].configure(fg_color = "#6AA647", hover_color = "#82BD60", text_color_disabled = "#B8B8B8",
-        text = self.quiz_data["D"].iloc[question_number], command = lambda: self.check_correct(question_number, 3), state = "normal")
+        text = self.quiz_data["D"].iloc[self.question_number], command = lambda: self.check_correct(3), state = "normal")
 
-        self.next_btn.configure(command = lambda: self.next_question(question_number))
+        self.next_btn.configure(command = self.next_question)
 
         #place elements
         self.question_textbox.place(relx = 0)
@@ -58,10 +60,10 @@ class Quiz():
     def quiz_selector(self):
         self.file = ctk.filedialog.askopenfilename()
         self.quiz_data = pd.read_csv(self.file, index_col = 0)
-        self.do_quiz(0)
+        self.do_quiz()
 
-    def check_correct(self, question_number, answer):
-        correct = self.quiz_data["correct"].iloc[question_number]
+    def check_correct(self, answer):
+        correct = self.quiz_data["correct"].iloc[self.question_number]
 
         for i in range(len(self.btn_list)):
             if i == correct:
@@ -74,21 +76,36 @@ class Quiz():
 
         self.points_textbox.configure(state = "normal")
         self.points_textbox.delete("0.0", "end")
-        self.points_textbox.insert("0.0", f"{self.points}/{question_number + 1}")
+        self.points_textbox.insert("0.0", f"{self.points}/{self.question_number + 1}")
         self.points_textbox.configure(state = "disabled")
 
         self.points_textbox.place(relx = 0.75, rely = 0.7)
 
-    def next_question(self, question_number):
-        if len(self.quiz_data) > question_number + 1:
-            self.do_quiz(question_number + 1)
+    def next_question(self):
+        if len(self.quiz_data) > self.question_number + 1:
+            self.question_number += 1
+            self.do_quiz()
 
         else:
             data_out = pd.read_csv("quiz_points.csv", index_col = 0)
             data_out = pd.concat([data_out, pd.DataFrame({
                 "quiz_name": [self.file.split("/")[-1]],
-                "points" : [self.points]
+                "points" : [self.points],
+                "max_points": [self.question_number + 1]
             })],
-             ignore_index=True)
+            ignore_index=True)
             data_out.to_csv("quiz_points.csv")
+
+            self.menu_points_textbox.configure(state = "normal")
+            self.menu_points_textbox.delete("0.0", "end")
+
+            if self.question_number > 0:
+                self.menu_points_textbox.insert("0.0", f"Legutolsó quiz pontjai: {self.points}/{self.question_number + 1}")
+            else:
+                self.menu_points_textbox.insert("0.0", "Legutolsó quiz pontjai: 0/0")
+
+            self.menu_points_textbox.configure(state = "disabled")
+
+            self.points = 0
+            self.question_number = 0
             self.last_elements.tkraise()
