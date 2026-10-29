@@ -1,6 +1,5 @@
 import customtkinter as ctk
 import pandas as pd
-import re
 
 class Quiz():
 
@@ -100,9 +99,9 @@ class Quiz():
             self.menu_points_textbox.delete("0.0", "end")
 
             if self.question_number > 0:
-                self.menu_points_textbox.insert("0.0", f"Legutolsó quiz pontjai: {self.points}/{self.question_number + 1}")
+                self.menu_points_textbox.insert("0.0", f"Points in the last quiz: {self.points}/{self.question_number + 1}")
             else:
-                self.menu_points_textbox.insert("0.0", "Legutolsó quiz pontjai: 0/0")
+                self.menu_points_textbox.insert("0.0", "Points in the last quiz: 0/0")
 
             self.menu_points_textbox.configure(state = "disabled")
 

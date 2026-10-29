@@ -27,9 +27,9 @@ title_textbox.configure(state = "disabled")
 
 points_textbox = ctk.CTkTextbox(menu_frame, width = WIDTH, height = 60, font = FONT, fg_color = "#dee2ee")
 if len(points_data) > 0:
-    points_textbox.insert("0.0", f"Legutolsó quiz pontjai: {points_data["points"].iloc[-1]}/{points_data["max_points"].iloc[-1]}")
+    points_textbox.insert("0.0", f"Points in the last quiz: {points_data["points"].iloc[-1]}/{points_data["max_points"].iloc[-1]}")
 else:
-    points_textbox.insert("0.0", "Legutolsó quiz pontjai: 0/0")
+    points_textbox.insert("0.0", "Points in the last quiz: 0/0")
 points_textbox.configure(state = "disabled")
 
 #Create quiz frame
