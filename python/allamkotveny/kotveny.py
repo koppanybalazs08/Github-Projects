@@ -19,6 +19,6 @@ def open(path):
     return data
 
 
-babakotveny = open("excel/babakotveny.xlsx")
-babakotveny.to_excel("excel/babakotveny_formatted.xlsx")
-print(babakotveny.head(40))
+allamkotveny = open("excel/allamkotveny.xlsx")
+allamkotveny.to_excel("excel/allamkotveny_formatted.xlsx")
+print(allamkotveny.head(40))
