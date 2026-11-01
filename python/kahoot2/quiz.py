@@ -1,5 +1,8 @@
 import customtkinter as ctk
+import CTkMessagebox as ctk_msg_box
 import pandas as pd
+
+#TODO: bugfixes
 
 class Quiz():
 
@@ -57,9 +60,27 @@ class Quiz():
 
 
     def quiz_selector(self):
-        self.file = ctk.filedialog.askopenfilename()
-        self.quiz_data = pd.read_csv(self.file, index_col = 0)
-        self.do_quiz()
+        selecting = False
+        while not selecting:
+            self.file = ctk.filedialog.askopenfilename(filetypes = [("All files", "*.csv")])
+
+            if self.file != "":
+                self.quiz_data = pd.read_csv(self.file, index_col = 0)
+
+                if list(self.quiz_data.columns) == ["question", "A", "B", "C", "D", "correct"]:
+                    selecting = True
+                    self.do_quiz()
+
+                else:
+                    ctk_msg_box.CTkMessagebox(title = "Not valid file!", 
+                                            message = "Please make sure to select a .csv file with the folowing format: question,A,B,C,D,correct",
+                                            icon = "warning",
+                                            fg_color = "#dee2ee",
+                                            bg_color = "#dee2ee")
+            else:
+                self.back_to_menu()
+                selecting = True
+
 
     def check_correct(self, answer):
         correct = self.quiz_data["correct"].iloc[self.question_number]
@@ -95,16 +116,19 @@ class Quiz():
             ignore_index=True)
             data_out.to_csv("quiz_points.csv")
 
-            self.menu_points_textbox.configure(state = "normal")
-            self.menu_points_textbox.delete("0.0", "end")
+            self.back_to_menu()
 
-            if self.question_number > 0:
-                self.menu_points_textbox.insert("0.0", f"Points in the last quiz: {self.points}/{self.question_number + 1}")
-            else:
-                self.menu_points_textbox.insert("0.0", "Points in the last quiz: 0/0")
+    def back_to_menu(self):
+        self.menu_points_textbox.configure(state = "normal")
+        self.menu_points_textbox.delete("0.0", "end")
 
-            self.menu_points_textbox.configure(state = "disabled")
+        if self.question_number > 0:
+            self.menu_points_textbox.insert("0.0", f"Points in the last quiz: {self.points}/{self.question_number + 1}")
+        else:
+            self.menu_points_textbox.insert("0.0", "Points in the last quiz: 0/0")
 
-            self.points = 0
-            self.question_number = 0
-            self.last_elements.tkraise()
+        self.menu_points_textbox.configure(state = "disabled")
+
+        self.points = 0
+        self.question_number = 0
+        self.last_elements.tkraise()
